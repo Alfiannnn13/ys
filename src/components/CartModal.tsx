@@ -10,7 +10,7 @@ const CartModal = () => {
 
   const handleCheckout = () => {
     const message = generateWhatsAppMessage(cart.lineItems || []);
-    const phoneNumber = "+6281410601130"; // Nomor WhatsApp tujuan
+    const phoneNumber = "+6282113844382"; // Nomor WhatsApp tujuan
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
@@ -74,7 +74,7 @@ const CartModal = () => {
                 </div>
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-gray-500">Qty. {item.quantity}</span>
-                  <span className="text-gray-500">Size. {item.descriptionLines && item.descriptionLines[0] && item.descriptionLines[0].plainText && item.descriptionLines[0].plainText.original}</span>
+                  <span className="text-gray-500">Keterangan. {item.descriptionLines && item.descriptionLines[0] && item.descriptionLines[0].plainText && item.descriptionLines[0].plainText.original}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span

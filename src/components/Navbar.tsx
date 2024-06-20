@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="h-full flex items-center justify-between md:hidden">
         <div className="mx-auto">
           <Link href="/">
-            <Image src="/logoys.png" alt="" width={32} height={32} />
+            <Image src="/logoys.png" alt="" width={70} height={70} />
           </Link>
         </div>
         <NavIcons/>
@@ -24,8 +24,8 @@ const Navbar = () => {
         {/* Kiri */}
         <div className="w-1/3 xl:w-1/2 flex items-center gap-12">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="" width={28} height={28} />
-            <div className="text-2xl tracking-wide">POLOSIN</div>
+            <Image src="/logoys.png" alt="" width={70} height={70} />
+            <div className="text-2xl tracking-wide">YUMNASHOP</div>
           </Link>
           <div className="hidden xl:flex gap-4">
             <Link href="/">Homepage</Link>
