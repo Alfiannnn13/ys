@@ -15,7 +15,7 @@ const slides = [
   },
   {
     id: 2,
-    title: "Crewneck Sale Collections",
+    title: "Skincare Collections",
     description: "Sale! Up to 10% off!",
     img: "https://images.pexels.com/photos/3373738/pexels-photo-3373738.jpeg",
     url: "/",
@@ -23,7 +23,7 @@ const slides = [
   },
   {
     id: 3,
-    title: "Croptop Sale Collections",
+    title: "Body Care Collections",
     description: "Sale! Up to 10% off!",
     img: "https://images.pexels.com/photos/9496258/pexels-photo-9496258.jpeg?auto=compress",
     url: "/",
