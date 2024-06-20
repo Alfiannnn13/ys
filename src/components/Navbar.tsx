@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="h-full flex items-center justify-between md:hidden">
         <div className="mx-auto">
           <Link href="/">
-            <Image src="/logo.png" alt="" width={32} height={32} />
+            <Image src="/logoys.png" alt="" width={32} height={32} />
           </Link>
         </div>
         <NavIcons/>
