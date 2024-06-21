@@ -30,9 +30,8 @@ const Navbar = () => {
           <div className="hidden xl:flex gap-4">
             <Link href="/">Homepage</Link>
             <Link href="/list">Category</Link>
-            <Link href="/">Shop</Link>
-            <Link href="/">Sale</Link>
-            <Link href="/">Homepage</Link>
+            <Link href="/lsit">Shop</Link>
+            <Link href="/list">Sale</Link>
           </div>
         </div>
         {/* Kanan */}
