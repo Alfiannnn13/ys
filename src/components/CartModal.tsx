@@ -3,10 +3,23 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { useWixClient } from "@/hooks/useWixClient";
 import { currentCart } from "@wix/ecom";
+import { useEffect, useState } from "react";
 
 const CartModal = () => {
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768); // Set threshold as per your requirement
+    };
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleCheckout = () => {
     const message = generateWhatsAppMessage(cart.lineItems || []);
@@ -18,25 +31,39 @@ const CartModal = () => {
   const generateWhatsAppMessage = (lineItems: any[]) => {
     let message = "Halo, saya ingin memesan:\n";
     lineItems.forEach((item) => {
-      message += `${item.productName?.original}\n ${item.quantity} x ${item.price?.formattedAmount}\n`;
-  
+      message += `${formatProductName(item.productName.original)}\n ${item.quantity} x ${item.price?.formattedAmount}\n`;
+
       // Mengambil variant size dengan cara yang sama seperti pada elemen JSX
       const variantSize = item.descriptionLines && item.descriptionLines[0] && item.descriptionLines[0].plainText && item.descriptionLines[0].plainText.original;
       if (variantSize) {
         message += `Size: ${variantSize}`;
       }
-  
+
       message += "\n";
     });
-  
+
     const subtotal = cart.subtotal ? cart.subtotal.formattedAmount : "N/A";
     message += `Total: ${subtotal}\n`;
     message += "Terima kasih!";
     return message;
   };
 
+  const formatProductName = (name: string) => {
+    if (isSmallScreen) {
+      const words = name.split(" ");
+      if (words.length > 3) {
+        return words.slice(0, 3).join(" ") + " ....";
+      } else {
+        return name;
+      }
+    } else {
+      return name;
+    }
+  };
+  
+
   return (
-    <div className="fixed p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 max-w-full md:max-w-xs z-20">
+    <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
       {!cart.lineItems ? (
         <div className="">Cart is Empty</div>
       ) : (
@@ -62,7 +89,7 @@ const CartModal = () => {
                 <div className="flex flex-col w-full">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-semibold pr-2 truncate">
-                      {item.productName?.original}
+                      {formatProductName(item.productName!.original!)}
                     </h3>
                     {item.quantity && item.quantity > 1 && (
                       <div className="text-xs text-green-500">
