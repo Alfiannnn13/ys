@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { useWixClient } from "@/hooks/useWixClient";
-import { currentCart } from "@wix/ecom";
 import { useEffect, useState } from "react";
 
 const CartModal = () => {
@@ -31,7 +30,7 @@ const CartModal = () => {
   const generateWhatsAppMessage = (lineItems: any[]) => {
     let message = "Halo, saya ingin memesan:\n";
     lineItems.forEach((item) => {
-      message += `${formatProductName(item.productName.original)}\n ${item.quantity} x ${item.price?.formattedAmount}\n`;
+      message += `${(item.productName.original)}\n ${item.quantity} x ${formatPrice(item.price?.formattedAmount)}\n`;
 
       // Mengambil variant size dengan cara yang sama seperti pada elemen JSX
       const variantSize = item.descriptionLines && item.descriptionLines[0] && item.descriptionLines[0].plainText && item.descriptionLines[0].plainText.original;
@@ -42,13 +41,13 @@ const CartModal = () => {
       message += "\n";
     });
 
-    const subtotal = cart.subtotal ? cart.subtotal.formattedAmount : "N/A";
+    const subtotal = cart.subtotal ? formatPrice(cart.subtotal.formattedAmount) : "N/A";
     message += `Total: ${subtotal}\n`;
     message += "Terima kasih!";
     return message;
   };
 
-  const formatProductName = (name: string) => {
+  const formatProductName = (name: string ) => {
     if (isSmallScreen) {
       const words = name.split(" ");
       if (words.length > 3) {
@@ -60,7 +59,12 @@ const CartModal = () => {
       return name;
     }
   };
-  
+
+  const formatPrice = (price: string | undefined) => {
+    if (!price) return "N/A";
+    // Mengubah format harga ke format yang sesuai dengan locale (dalam kasus ini, Indonesia)
+    return parseFloat(price.replace(/[^\d.-]/g, '')).toLocaleString('id-ID');
+  };
 
   return (
     <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
@@ -97,7 +101,7 @@ const CartModal = () => {
                       </div>
                     )}
                     <div className="p-1 bg-gray-50 rounded-sm">
-                      {item.price?.formattedAmount}
+                      {formatPrice(item.price?.formattedAmount)}
                     </div>
                   </div>
                   <div className="flex justify-between text-sm mb-2">
@@ -120,7 +124,7 @@ const CartModal = () => {
           <div className="">
             <div className="flex items-center justify-between font-semibold">
               <span className="">Subtotal</span>
-              <span className="">{cart.subtotal?.formattedAmount}</span>
+              <span className="">Rp {formatPrice(cart.subtotal?.formattedAmount)}</span>
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at checkout.
